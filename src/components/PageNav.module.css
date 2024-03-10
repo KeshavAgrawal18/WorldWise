@@ -1,0 +1,76 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+.nav a:link,
+.nav a:visited {
+  text-decoration: none;
+  color: var(--color-light--2);
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* CSS Modules feature */
+.nav a:global(.active) {
+  color: var(--color-brand--2);
+}
+
+a.ctaLink:link,
+a.ctaLink:visited {
+  background-color: var(--color-brand--2);
+  color: var(--color-dark--0);
+  padding: 0.8rem 2rem;
+  border-radius: 7px;
+}
+
+.username {
+  display: inline-block;
+  /* color: var(--color-brand--2); */
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 1rem 3rem;
+  border: 2px solid;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dropdownContainer {
+  position: relative;
+}
+
+.dropdownContent {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff; /* Dropdown background color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Dropdown box shadow */
+  border-radius: 4px;
+  padding: 8px;
+  z-index: 1;
+}
+
+.dropdownContent button {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  text-align: left;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdownContent button:hover {
+  background-color: #f5f5f5; /* Hover background color */
+}
