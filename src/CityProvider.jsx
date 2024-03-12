@@ -1,8 +1,9 @@
 /* eslint react/prop-types: 0 */
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useReducer } from "react";
 import { AuthHeader, BASE_URL } from "./App";
 import axios from "axios";
 import Message from "./components/Message";
+import { useAuth } from "./AuthProvider";
 
 const CityContext = createContext();
 const initialState = {
@@ -20,6 +21,8 @@ function reducer(state, action) {
       return { ...state, cities: action.payload.cities, isLoading: false };
     case "city/fetched":
       return { ...state, currentCity: action.payload.currentCity, isLoading: false };
+    case "city/created":
+      return { ...state, cities: [...state.cities, action.payload.city], isLoading: false, currentCity: action.payload.city };
     case "city/deleted":
       return { ...state, cities: state.cities.filter(city => city.id !== action.payload.id), isLoading: false };
     case "rejected":
@@ -40,34 +43,33 @@ function CityProvider({ children }) {
     dispatch,
   ] = useReducer(reducer, initialState)
 
-  useEffect(function () {
-    async function fetchCities() {
-      try {
-        dispatch({ type: "loading" })
-        const response = await fetch(`${BASE_URL}/cities`)
-        const cities = await response.json()
-        dispatch({
-          type: "cities/fetched", payload: {
-            cities: cities,
-          }
-        })
-      }
-      catch {
-        dispatch({
-          type: "rejected", payload: {
-            error: "Unable to fetch cities from the Server",
-          }
-        })
-        throw new Error("Unable to fetch cities from the Server");
-      }
+  const { userId } = useAuth();
+
+  async function fetchCities() {
+    try {
+      dispatch({ type: "loading" })
+      const response = await fetch(`${BASE_URL}/cities/userId/${userId}`)
+      const cities = await response.json()
+      dispatch({
+        type: "cities/fetched", payload: {
+          cities: cities,
+        }
+      })
     }
-    fetchCities();
-  }, []);
+    catch {
+      dispatch({
+        type: "rejected", payload: {
+          error: "Unable to fetch cities from the Server",
+        }
+      })
+      throw new Error("Unable to fetch cities from the Server");
+    }
+  }
 
   async function getCity(id) {
     try {
       dispatch({ type: "loading" });
-      const response = await fetch(`${BASE_URL}/cities/${id}`);
+      const response = await fetch(`${BASE_URL}/cities/userId/${userId}/id/${id}`);
       const responseData = await response.json();
       dispatch({
         type: "city/fetched",
@@ -90,10 +92,19 @@ function CityProvider({ children }) {
     try {
       const response = await axios.post(`${BASE_URL}/newCity`,
         {
-          newCity: newCity,
-        }, AuthHeader)
-      if (Number(response.status) === 200)
-        window.location.href = "cities"
+          newCity,
+          userId
+        }, AuthHeader
+      )
+      if (Number(response.status) === 200) {
+        newCity = { ...newCity, id: response.data.id };
+        dispatch({
+          type: "city/created", payload: {
+            city: newCity
+          }
+        })
+      }
+
       else
         <Message message={response.Error} />
     } catch (error) {
@@ -110,11 +121,14 @@ function CityProvider({ children }) {
   async function deleteCity(id, cityName) {
     dispatch({ type: "loading" });
     try {
-      const response = await axios.delete(`${BASE_URL}/city/delete`, {
-        id: id,
-        cityName: cityName,
-      },
-        AuthHeader)
+      const response = await axios.delete(`${BASE_URL}/city/delete`,
+        {
+          headers: AuthHeader.headers, data: {
+            id: id,
+            cityName: cityName,
+            userId: userId,
+          }
+        })
       if (Number(response.status) === 200)
         dispatch({
           type: "city/deleted",
@@ -142,6 +156,7 @@ function CityProvider({ children }) {
         cities,
         isLoading,
         currentCity,
+        fetchCities,
         getCity,
         createCity,
         deleteCity,

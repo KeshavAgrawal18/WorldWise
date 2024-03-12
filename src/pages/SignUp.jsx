@@ -12,7 +12,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [confimPassword, setConfimPassword] = useState("");
   const [message, setMessage] = useState("");
-  const { signup, isAuthenticated } = useAuth();
+  const { signup, isAuthenticated, error, clearError } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +21,7 @@ export default function SignUp() {
   }, [isAuthenticated]);
   function handleSubmit(e) {
     e.preventDefault();
+    clearError();
     if (!email || !password || !name || !username)
       return;
     if (password !== confimPassword) {
@@ -103,6 +104,9 @@ export default function SignUp() {
 
           <div className={styles.row}>
             {message}
+          </div>
+          <div className={styles.row}>
+            {error}
           </div>
 
           <div>

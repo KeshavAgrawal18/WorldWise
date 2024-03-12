@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, error, clearError } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,9 +17,9 @@ export default function Login() {
   }, [isAuthenticated]);
   function handleSubmit(e) {
     e.preventDefault();
-    if (!email || !password)
+    if (!username || !password)
       return;
-    login(email, password);
+    login(username, password);
   }
 
   return (
@@ -29,13 +29,16 @@ export default function Login() {
         <form className={styles.form}>
           <h2>Login</h2>
           <div className={styles.row}>
-            <label htmlFor="email">Email address</label>
+            <label htmlFor="username">Username</label>
             <input
-              type="email"
-              id="email"
-              onChange={(e) => setEmail(e.target.value)}
+              type="username"
+              id="username"
+              onChange={(e) => {
+                setUsername(e.target.value)
+                clearError();
+              }}
               placeholder={"jack@example.com"}
-              value={email}
+              value={username}
             />
           </div>
 
@@ -44,12 +47,17 @@ export default function Login() {
             <input
               type="password"
               id="password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value)
+                clearError();
+              }}
               placeholder={"qwerty"}
               value={password}
             />
           </div>
-
+          <div className={`${styles.row} ${styles.big}`}>
+            {error}
+          </div>
           <div>
             <Button type="primary" onClick={handleSubmit}>Login</Button>
           </div>

@@ -12,6 +12,8 @@ import Message from "./Message";
 import Spinner from "./Spinner";
 import CountryEmoji from "./CountryEmoji";
 import { useCity } from "../CityProvider";
+import { useAuth } from "../AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -29,6 +31,7 @@ export function convertToEmoji(countryCode) {
 
 function Form() {
   const { createCity, isLoading } = useCity();
+  const { isAuthenticated } = useAuth();
   const [lat, lng] = useUrlPosition();
   const [cityName, setCityName] = useState("");
   const [countryName, setCountryName] = useState("");
@@ -37,6 +40,7 @@ function Form() {
   const [geoCodingError, setgeoCodingError] = useState('');
   const [isLoadingGeolocationCode, setIsLoadingGeolocationCode] = useState(false);
   const [emoji, setEmoji] = useState('');
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -69,6 +73,10 @@ function Form() {
   function handleSubmit(e) {
 
     e.preventDefault();
+
+    if (!isAuthenticated)
+      navigate("/login");
+
     if (!countryName || !cityName || !date) return;
     const newCity = {
       cityName,
@@ -82,6 +90,8 @@ function Form() {
       },
     }
     createCity(newCity);
+    navigate("/app/cities");
+
   }
 
   if (!lat || !lng) return <Message message='Start with clicking somewhere on the map.' />

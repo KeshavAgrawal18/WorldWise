@@ -1,10 +1,9 @@
 /* eslint react/prop-types: 0 */
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './CityItem.module.css'
 import { useCity } from '../CityProvider';
 import CountryEmoji from './CountryEmoji';
-// import { BASE_URL } from '../App';
-
+import { useAuth } from '../AuthProvider';
 
 const formatDate = (date) =>
     new Intl.DateTimeFormat("en", {
@@ -13,13 +12,17 @@ const formatDate = (date) =>
         year: "numeric",
     }).format(new Date(date));
 
-
-
 function CityItem({ city }) {
     const { currentCity, deleteCity } = useCity();
+    const { isAuthenticated } = useAuth();
     const { cityName, emoji, date, id, position } = city;
+    const navigate = useNavigate();
 
     function handleClick() {
+
+        if (!isAuthenticated)
+            navigate("/login");
+
         deleteCity(id, cityName);
     }
 
