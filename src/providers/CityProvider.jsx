@@ -20,7 +20,7 @@ function CityProvider({ children }) {
     dispatch,
   ] = useReducer(reducer, initialState)
 
-  const { userId } = useAuth();
+  const { userId, isAuthenticated } = useAuth();
 
 
 
@@ -46,7 +46,8 @@ function CityProvider({ children }) {
   }
 
   useEffect(() => {
-    fetchCities();
+    if (isAuthenticated && userId)
+      fetchCities();
   }, []);
 
   async function getCity(id) {
