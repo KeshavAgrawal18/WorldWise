@@ -2,7 +2,7 @@
 import CountryItem from "./CountryItem";
 import Spinner from "./Spinner"
 import styles from './CountryList.module.css'
-import { useCity } from "../CityProvider";
+import { useCity } from "../providers/CityProvider";
 import Message from "./Message";
 
 function CountryList() {

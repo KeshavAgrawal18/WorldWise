@@ -1,36 +1,13 @@
 /* eslint react/prop-types: 0 */
-import { createContext, useContext, useReducer } from "react";
-import { AuthHeader, BASE_URL } from "./App";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import axios from "axios";
-import Message from "./components/Message";
+import Message from "../components/Message";
 import { useAuth } from "./AuthProvider";
+import { AuthHeader, BASE_URL } from "../utils/dataHelpers";
+import { reducer, initialState } from "./cityReducer";
 
 const CityContext = createContext();
-const initialState = {
-  cities: [],
-  isLoading: false,
-  currentCity: {},
-  error: "",
-}
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "loading":
-      return { ...state, isLoading: true };
-    case "cities/fetched":
-      return { ...state, cities: action.payload.cities, isLoading: false };
-    case "city/fetched":
-      return { ...state, currentCity: action.payload.currentCity, isLoading: false };
-    case "city/created":
-      return { ...state, cities: [...state.cities, action.payload.city], isLoading: false, currentCity: action.payload.city };
-    case "city/deleted":
-      return { ...state, cities: state.cities.filter(city => city.id !== action.payload.id), isLoading: false };
-    case "rejected":
-      return { ...state, error: action.payload.error, isLoading: false };
-    default:
-      throw new Error("Unknown action type");
-  }
-}
 
 function CityProvider({ children }) {
   const [
@@ -44,6 +21,8 @@ function CityProvider({ children }) {
   ] = useReducer(reducer, initialState)
 
   const { userId } = useAuth();
+
+
 
   async function fetchCities() {
     try {
@@ -65,6 +44,10 @@ function CityProvider({ children }) {
       throw new Error("Unable to fetch cities from the Server");
     }
   }
+
+  useEffect(() => {
+    fetchCities();
+  }, []);
 
   async function getCity(id) {
     try {

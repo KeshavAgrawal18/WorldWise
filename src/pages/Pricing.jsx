@@ -13,9 +13,7 @@ export default function Pricing() {
             Just $9/month.
           </h2>
           <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae vel
-            labore mollitia iusto. Recusandae quos provident, laboriosam fugit
-            voluptatem iste.
+            Unlock a world of exploration and memories with WorldWise. Track your adventures, discover new destinations, and share your experiences effortlessly. Join our global community of travelers today and start creating unforgettable memories that last a lifetime.
           </p>
         </div>
         <img src="img-2.jpg" alt="overview of a large city with skyscrapers" />

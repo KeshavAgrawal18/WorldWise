@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthProvider";
+import { useAuth } from "../providers/AuthProvider";
 import { useEffect } from "react";
 
 function ProtectedRoute({ children }) {
@@ -9,7 +9,7 @@ function ProtectedRoute({ children }) {
     useEffect(() => {
         if (!isAuthenticated)
             navigate("/");
-    }, [isAuthenticated])
+    }, [isAuthenticated, navigate]);
 
     return children;
 }

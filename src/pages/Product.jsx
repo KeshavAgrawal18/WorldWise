@@ -13,15 +13,10 @@ export default function Product() {
         <div>
           <h2>About WorldWide.</h2>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo est
-            dicta illum vero culpa cum quaerat architecto sapiente eius non
-            soluta, molestiae nihil laborum, placeat debitis, laboriosam at fuga
-            perspiciatis?
+            WorldWise is an innovative travel companion app designed to keep track of your adventures around the globe. With its intuitive interface and comprehensive features,
           </p>
           <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis
-            doloribus libero sunt expedita ratione iusto, magni, id sapiente
-            sequi officiis et.
+            WorldWise allows you to create a personalized world map that documents every city you&apos;ve visited, ensuring that you never forget your wonderful experiences.
           </p>
         </div>
       </section>

@@ -1,16 +1,11 @@
 /* eslint react/prop-types: 0 */
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './CityItem.module.css'
-import { useCity } from '../CityProvider';
+import { useCity } from '../providers/CityProvider';
 import CountryEmoji from './CountryEmoji';
-import { useAuth } from '../AuthProvider';
+import { useAuth } from '../providers/AuthProvider';
+import { formatDate } from '../utils/dataHelpers';
 
-const formatDate = (date) =>
-    new Intl.DateTimeFormat("en", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-    }).format(new Date(date));
 
 function CityItem({ city }) {
     const { currentCity, deleteCity } = useCity();

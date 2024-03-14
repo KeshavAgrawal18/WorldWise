@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./Login.module.css";
 import PageNav from "../components/PageNav";
-import { useAuth } from "../AuthProvider";
+import { useAuth } from "../providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 
@@ -14,7 +14,7 @@ export default function Login() {
   useEffect(() => {
     if (isAuthenticated) navigate("/app", { replace: true })
 
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
   function handleSubmit(e) {
     e.preventDefault();
     if (!username || !password)

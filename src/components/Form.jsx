@@ -11,22 +11,11 @@ import { useUrlPosition } from "../hooks/useUrlPosition";
 import Message from "./Message";
 import Spinner from "./Spinner";
 import CountryEmoji from "./CountryEmoji";
-import { useCity } from "../CityProvider";
-import { useAuth } from "../AuthProvider";
+import { useCity } from "../providers/CityProvider";
+import { useAuth } from "../providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
-
-
-
 const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 
-
-export function convertToEmoji(countryCode) {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split("")
-    .map((char) => 127397 + char.charCodeAt());
-  return String.fromCodePoint(...codePoints);
-}
 
 
 function Form() {

@@ -1,6 +1,6 @@
 /* eslint react/prop-types: 0 */
 import { useEffect, useState } from 'react';
-import { useCity } from '../CityProvider';
+import { useCity } from '../providers/CityProvider';
 
 import CountryEmoji from './CountryEmoji';
 import styles from './Map.module.css'
@@ -15,9 +15,6 @@ function Map() {
 
     const [mapPosition, setMapPosition] = useState([28.6139, 77.2090]);
     const { cities } = useCity();
-    // const [searchParams, setSearchParams] = useSearchParams();
-    // console.log(searchParams);
-
     const [lat, lng] = useUrlPosition();
 
     useEffect(() => {

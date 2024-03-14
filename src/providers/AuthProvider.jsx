@@ -1,69 +1,40 @@
 /* eslint react/prop-types: 0 */
 import { createContext, useContext, useReducer } from "react";
-import { AuthHeader, BASE_URL } from "./App";
 import axios from "axios";
+import { AuthHeader, BASE_URL } from "../utils/dataHelpers";
+import { reducer, initialState } from "./authReducers";
 
 const AuthContext = createContext();
-const initialState = {
-    isAuthenticated: false,
-    userId: "",
-    username: "",
-    avatar: "https://cdn-icons-png.freepik.com/64/10100/10100101.png",
-    error: "",
-}
-
-function reducer(state, action) {
-    switch (action.type) {
-        case "authenticate":
-            return {
-                ...state,
-                userId: action.payload.userId,
-                username: action.payload.username,
-                isAuthenticated: true
-            };
-        case "logout":
-            return initialState;
-        case "rejected":
-            return { ...state, error: action.payload.error };
-        case "removeError":
-            return { ...state, error: '' };
-        default:
-            throw new Error("Unknown action type");
-
-    }
-}
 
 function AuthProvider({ children }) {
     const [{ userId, isAuthenticated, username, avatar, error }, dispatch] = useReducer(reducer, initialState);
 
     function signup(email, username, password) {
-        try {
-            axios.post(`${BASE_URL}/signup`, {
-                email: email,
-                password: password,
-                username: username
-            }, AuthHeader
+        axios.post(`${BASE_URL}/signup`, {
+            email: email,
+            password: password,
+            username: username
+        }, AuthHeader
 
-            ).then(response => {
-                dispatch({
-                    type: "authenticate",
-                    payload:
-                    {
-                        userId: response.data.userId,
-                        username: response.data.username,
-                    }
-                })
-            }
-            )
-                .catch(err => {
-                    if (Number(err.status) === 403)
-                        dispatch({ type: "rejected", payload: { error: "user with the username is already registered" } });
-                    else
-                        dispatch({ type: "rejected", payload: { error: "Something wrong happened. Try again" } });
-                })
-        } catch (error) {
-            console.log(error);
+        ).then(response => {
+            dispatch({
+                type: "authenticate",
+                payload:
+                {
+                    userId: response.data.userId,
+                    username: response.data.username,
+                }
+            })
         }
+        )
+            .catch(err => {
+                if (Number(err.response.status) === 409) {
+                    dispatch({ type: "rejected", payload: { error: err.response.data.message } });
+                }
+                else {
+                    dispatch({ type: "rejected", payload: { error: "Something wrong happened. Try again" } });
+                }
+            })
     }
 
 

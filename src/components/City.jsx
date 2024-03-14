@@ -2,23 +2,16 @@ import { useParams } from "react-router-dom";
 import styles from "./City.module.css";
 import { useEffect } from "react";
 import Spinner from "./Spinner";
-import { useCity } from "../CityProvider";
+import { useCity } from "../providers/CityProvider";
 import BackButton from "./BackButton";
-
-const formatDate = (date) =>
-  new Intl.DateTimeFormat("en", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    weekday: "long",
-  }).format(new Date(date));
+import { formatDate } from "../utils/dataHelpers";
 
 function City() {
   const { id } = useParams();
   const { isLoading, currentCity, getCity } = useCity();
   useEffect(() => {
     getCity(id);
-  }, [id])
+  }, [id, getCity])
   const { cityName, emoji, date, notes } = currentCity;
   if (isLoading)
     return <Spinner />

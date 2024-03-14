@@ -5,7 +5,6 @@ import Button from "./Button";
 
 function LocationButton() {
     const { isLoading, getPosition, position } = useGeolocation();
-    // const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
 
     return (

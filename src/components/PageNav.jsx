@@ -1,7 +1,7 @@
 import { NavLink, Link } from "react-router-dom";
 import styles from "./PageNav.module.css"
 import Logo from "./Logo";
-import { useAuth } from "../AuthProvider";
+import { useAuth } from "../providers/AuthProvider";
 import { useState } from "react";
 
 function PageNav() {

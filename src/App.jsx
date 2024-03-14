@@ -9,18 +9,12 @@ import CityList from "./components/CityList";
 import City from "./components/City";
 import CountryList from "./components/CountryList";
 import Form from "./components/Form";
-import { CityProvider } from "./CityProvider";
+import { CityProvider } from "./providers/CityProvider";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import { AuthProvider } from "./AuthProvider";
+import { AuthProvider } from "./providers/AuthProvider";
 import ProtectedRoute from "./pages/ProtectedRoute";
 
-export const BASE_URL = "http://localhost:8000/api";
-export const AuthHeader = {
-  headers: {
-    Authorization: "authenticationcode_secret"
-  },
-};
 
 function App() {
 
