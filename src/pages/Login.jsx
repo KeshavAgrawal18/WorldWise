@@ -8,7 +8,7 @@ import Button from "../components/Button";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isAuthenticated, error, clearError } = useAuth();
+  const { login, isAuthenticated, error, clearError, isLoading: isLoadingUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function Login() {
     <>
       <main className={styles.login}>
         <PageNav />
-        <form className={styles.form}>
+        <form className={styles.form} style={{ opacity: isLoadingUser ? 0.7 : 1, pointerEvents: isLoadingUser ? "none" : 'auto' }}>
           <h2>Login</h2>
           <div className={styles.row}>
             <label htmlFor="username">Username</label>
@@ -59,10 +59,10 @@ export default function Login() {
             {error}
           </div>
           <div>
-            <Button type="primary" onClick={handleSubmit}>Login</Button>
+            <Button type="primary" onClick={handleSubmit} disabled={isLoadingUser}>{isLoadingUser ? 'Logging...' : 'Login'}</Button>
           </div>
         </form>
-      </main>
+      </main >
     </>
   );
 }

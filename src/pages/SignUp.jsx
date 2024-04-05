@@ -12,7 +12,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [confimPassword, setConfimPassword] = useState("");
   const [message, setMessage] = useState("");
-  const { signup, isAuthenticated, error, clearError } = useAuth();
+  const { signup, isAuthenticated, error, clearError, isLoading: isLoadingUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export default function SignUp() {
     <>
       <main className={styles.login}>
         <PageNav />
-        <form className={styles.form}>
+        <form className={styles.form} style={{ opacity: isLoadingUser ? 0.7 : 1, pointerEvents: isLoadingUser ? "none" : 'auto' }}>
           <h2>Sign Up</h2>
           <div className={styles.row}>
             <label htmlFor="name">Name</label>
@@ -163,7 +163,7 @@ export default function SignUp() {
           </div>
 
           <div>
-            <Button type="primary" onClick={handleSubmit}>Sign Up</Button>
+            <Button type="primary" onClick={handleSubmit} disabled={isLoadingUser}>{isLoadingUser ? 'Signing Up...' : 'Sign Up'}</Button>
           </div>
         </form>
       </main >

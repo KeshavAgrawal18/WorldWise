@@ -4,9 +4,13 @@ import Spinner from "./Spinner"
 import styles from './CityList.module.css'
 import { useCity } from "../providers/CityProvider";
 import Message from "./Message";
+import { useEffect } from "react";
 
 function CityList() {
-    const { cities, isLoading } = useCity();
+    const { cities, isLoading, fetchCities } = useCity();
+    useEffect(() => {
+        fetchCities();
+    }, [])
     if (isLoading)
         return <Spinner />;
     if (cities.length === 0)

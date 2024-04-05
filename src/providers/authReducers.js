@@ -3,6 +3,7 @@ export const initialState = {
   userId: "",
   username: "",
   avatar: "https://cdn-icons-png.freepik.com/64/10100/10100101.png",
+  isLoading: false,
   error: "",
 };
 
@@ -14,13 +15,16 @@ export function reducer(state, action) {
         userId: action.payload.userId,
         username: action.payload.username,
         isAuthenticated: true,
+        isLoading: false,
       };
     case "logout":
       return initialState;
     case "rejected":
-      return { ...state, error: action.payload.error };
+      return { ...state, isLoading: false, error: action.payload.error };
     case "removeError":
-      return { ...state, error: "" };
+      return { ...state, isLoading: false, error: "" };
+    case "loading":
+      return { ...state, isLoading: true };
     default:
       throw new Error("Unknown action type");
   }

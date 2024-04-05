@@ -7,26 +7,28 @@ import { reducer, initialState } from "./authReducers";
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-    const [{ userId, isAuthenticated, username, avatar, error }, dispatch] = useReducer(reducer, initialState);
+    const [{ userId, isAuthenticated, username, avatar, error, isLoading }, dispatch] = useReducer(reducer, initialState);
 
     function signup(email, username, password) {
+        dispatch({ type: "loading" })
         axios.post(`${BASE_URL}/signup`, {
             email: email,
             password: password,
             username: username
         }, AuthHeader
 
-        ).then(response => {
-            dispatch({
-                type: "authenticate",
-                payload:
-                {
-                    userId: response.data.userId,
-                    username: response.data.username,
-                }
-            })
-        }
         )
+            .then(response => {
+                dispatch({
+                    type: "authenticate",
+                    payload:
+                    {
+                        userId: response.data.userId,
+                        username: response.data.username,
+                    }
+                })
+            }
+            )
             .catch(err => {
                 if (Number(err.response.status) === 409) {
                     dispatch({ type: "rejected", payload: { error: err.response.data.message } });
@@ -39,6 +41,7 @@ function AuthProvider({ children }) {
 
 
     function login(username, password) {
+        dispatch({ type: "loading" })
         axios.post(`${BASE_URL}/login`, {
             username, password
         }, AuthHeader)
@@ -78,6 +81,7 @@ function AuthProvider({ children }) {
                 username,
                 avatar,
                 error,
+                isLoading,
                 login,
                 signup,
                 logout,
