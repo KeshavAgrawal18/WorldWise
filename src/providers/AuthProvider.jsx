@@ -8,7 +8,7 @@ const AuthContext = createContext();
 
 function AuthProvider({ children }) {
     const [{ userId, isAuthenticated, username, avatar, error, isLoading }, dispatch] = useReducer(reducer, initialState);
-
+    console.log({ BASE_URL });
     function signup(email, username, password) {
         dispatch({ type: "loading" })
         axios.post(`${BASE_URL}/signup`, {

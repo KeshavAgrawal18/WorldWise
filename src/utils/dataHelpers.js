@@ -14,7 +14,7 @@ export function convertToEmoji(countryCode) {
   return String.fromCodePoint(...codePoints);
 }
 
-export const BASE_URL = import.meta.VITE_BASE_URL;
+export const BASE_URL = import.meta.env.VITE_BASE_URL;
 export const AuthHeader = {
   headers: {
     Authorization: "authenticationcode_secret",
