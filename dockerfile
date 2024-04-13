@@ -1,5 +1,11 @@
 FROM node:alpine3.18 as build
 
+# Declare build time environment variables
+ARG VITE_BASE_URL
+
+# Set default values for environment variables
+ENV VITE_BASE_URL=$VITE_BASE_URL
+
 # Build App
 WORKDIR /app
 COPY package.json .
