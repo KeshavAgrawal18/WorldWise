@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package.json .
 RUN npm install
 COPY . .
-CMD [ "npm", "start" ]
+RUN npm run build
 
 #Server configuration
 FROM nginx:1.25-alpine
