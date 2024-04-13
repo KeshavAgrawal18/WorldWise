@@ -29,4 +29,4 @@ jobs:
       - name: Delete old container
         run: docker rm -f node-js-app-container
       - name: Run Docker Container
-        run: docker run -d -p 5173:5173 --name reactjs-app-container -e  keshavagrawal18/worldwise-react
+        run: docker run -d -p 5173:5173 --name reactjs-app-container keshavagrawal18/worldwise-react
