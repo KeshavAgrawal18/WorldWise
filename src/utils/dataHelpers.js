@@ -14,8 +14,7 @@ export function convertToEmoji(countryCode) {
   return String.fromCodePoint(...codePoints);
 }
 
-export const BASE_URL = "https://worldwise-server-i8cc.onrender.com/api";
-// export const BASE_URL = "http://localhost:8000/api";
+export const BASE_URL = import.meta.VITE_BASE_URL;
 export const AuthHeader = {
   headers: {
     Authorization: "authenticationcode_secret",
