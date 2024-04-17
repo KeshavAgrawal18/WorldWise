@@ -25,7 +25,7 @@ export default function Login() {
   return (
     <>
       <main className={styles.login}>
-        <PageNav />
+        <PageNav style={{ opacity: isLoadingUser ? 0.7 : 1, pointerEvents: isLoadingUser ? "none" : 'auto' }} />
         <form className={styles.form} style={{ opacity: isLoadingUser ? 0.7 : 1, pointerEvents: isLoadingUser ? "none" : 'auto' }}>
           <h2>Login</h2>
           <div className={styles.row}>

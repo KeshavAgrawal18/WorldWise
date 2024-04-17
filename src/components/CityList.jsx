@@ -9,8 +9,8 @@ import { useEffect } from "react";
 function CityList() {
     const { cities, isLoading, fetchCities } = useCity();
     useEffect(() => {
-        if (cities.length === 0)
-            fetchCities();
+        // if (cities.length === 0)
+        fetchCities();
     }, [])
     if (isLoading)
         return <Spinner />;

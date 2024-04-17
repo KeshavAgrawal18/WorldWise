@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import { NavLink, Link } from "react-router-dom";
 import styles from "./PageNav.module.css"
 import Logo from "./Logo";
@@ -5,7 +6,7 @@ import { useAuth } from "../providers/AuthProvider";
 import { useState } from "react";
 
 function PageNav() {
-    const { isAuthenticated, username, logout } = useAuth();
+    const { isAuthenticated, username, logout, isLoading } = useAuth();
     const [showDropdown, setShowDropdown] = useState(false);
 
     const handleDropdownToggle = () => {
@@ -13,7 +14,9 @@ function PageNav() {
     };
 
     return (
-        <nav className={styles.nav}>
+        <nav className={styles.nav} style={{
+            opacity: isLoading ? 0.7 : 1, pointerEvents: isLoading ? "none" : 'auto'
+        }}>
             <Logo />
             <ul>
                 <li>
